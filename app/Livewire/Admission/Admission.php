@@ -111,13 +111,14 @@ class Admission extends Component
             'class_days' => $this->classday,
             'created_at' => Carbon::now(),
         ]);
-
+        $course = Course::where('id',$this->courseId)->first();
         //Mail Data
         $data = [
             'name'=> $this->name,
             'email'=> $this->email,
             'user_id'=> $user_id,
             'password'=> $password,
+            'course_name' =>$course->name,
         ];
 
         //SMS Message

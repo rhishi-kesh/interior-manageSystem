@@ -27,7 +27,7 @@ class AdmissionMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Admission Mail',
+            subject: 'Admission Confirmation Mail',
         );
     }
 
