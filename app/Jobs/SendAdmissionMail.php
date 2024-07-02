@@ -26,7 +26,7 @@ class SendAdmissionMail implements ShouldQueue
         $this->number = $number;
         $this->message = $message;
     }
-
+    
     /**
      * Execute the job.
     */

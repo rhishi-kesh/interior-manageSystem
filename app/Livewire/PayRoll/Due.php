@@ -95,10 +95,16 @@ class Due extends Component
         $data = [
             'name'=> $student->name,
             'email'=> $student->email,
+            'departmentName' => $student->department->name,
+            'paidAmount' => $student->payments->pay ?? "Not Paid",
+            'dueAmount' => $student->payments->due,
         ];
 
+        $departmentName = $student->department->name;
+        $paidAmount = $student->payments->pay ?? "Not Paid";
+        $dueAmount = $student->payments->due;
         //SMS Message
-        $message = 'কোর্স এর টাকা পাবো';
+        $message = "Dear $student->name, you have enrolled in the $departmentName course. Amount paid: $paidAmount. Outstanding balance: $dueAmount. Please settle the balance at your earliest convenience. Thank you.";
 
         $this->sendSMS($student->mobile, $message);
         Mail::to($student->email)->send(new DueMail($data));

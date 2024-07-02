@@ -28,7 +28,7 @@ class DueMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Due Mail',
+            subject: 'Enrollment and Payment Confirmation',
         );
     }
 

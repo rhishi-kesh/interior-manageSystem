@@ -132,6 +132,7 @@ class Admission extends Component
                     'created_at' => Carbon::now(),
                 ]);
             }
+            $department = Department::where('id',$this->courseId)->first();
 
             //Mail Data
             $data = [
@@ -139,12 +140,14 @@ class Admission extends Component
                 'email'=> $this->email,
                 'user_id'=> $user_id,
                 'password'=> $password,
+                'department_name' => $department->name,
             ];
 
             DB::commit();
 
             //SMS Message
-            $message = "$this->name your sms sending";
+            $message = "Congratulations $this->name! You've been admitted to the $department->name at Interior Bangladesh. Visit our website and Facebook page for info. Check your email and phone for login details. Contact 0199833324 for help.";
+
 
 
             dispatch(new SendAdmissionMail($data, $message, $this->mobileNumber));
