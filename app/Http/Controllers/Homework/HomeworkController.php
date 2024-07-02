@@ -44,8 +44,6 @@ class HomeworkController extends Controller
             'person' => 'required',
         ]);
 
-        // SMS Message
-        $message = "HomeWork";
 
         foreach($request->person as $person){
 
@@ -55,7 +53,11 @@ class HomeworkController extends Controller
             $data = [
                 'name'=> $user->name,
                 'email'=> $user->email,
+                'mentorName'=> Auth::guard('mentor')->user()->name,
             ];
+
+            // SMS Message
+            $message = "Dear $user->name, Your mentor, " . Auth::guard('mentor')->user()->name . ", has assigned homework to you. Please log in to your panel to check the details and complete the homework by the deadline. Thank you.";
 
             $done = Homework::insert([
                 'student_id' => $user->id,

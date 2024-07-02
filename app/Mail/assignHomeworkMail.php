@@ -28,7 +28,7 @@ class assignHomeworkMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Assign Homework Mail',
+            subject: 'Homework Assignment Notification',
         );
     }
 

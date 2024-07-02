@@ -32,7 +32,7 @@ class SendNoticeMail implements ShouldQueue
      */
     public function handle(): void
     {
-        // $this->sendSMS($this->user->mobile, $this->message);
+        $this->sendSMS($this->user->mobile, $this->message);
         Mail::to($this->user->email)->send(new NoticeMail($this->data));
     }
 }

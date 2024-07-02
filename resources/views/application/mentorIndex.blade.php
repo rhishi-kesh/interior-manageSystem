@@ -36,7 +36,7 @@
                     </div>
                     <div class="mt-5 flex items-center justify-between font-semibold">
                         <div>
-                            {{-- <span class="text-blue-500">Running Batch:</span> <span class="text-orange-500">{{ $runningBatch }}</span> --}}
+                            <span class="text-blue-500">Running Batch:</span> <span class="text-orange-500">{{ $runningBatch }}</span>
                         </div>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg"

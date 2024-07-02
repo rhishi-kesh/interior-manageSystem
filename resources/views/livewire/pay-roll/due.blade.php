@@ -35,7 +35,7 @@
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Student ID</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Name</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Mobile</th>
-                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Course</th>
+                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Department</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Scholarship</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Total Amount</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Total pay</th>
@@ -63,19 +63,19 @@
                                 {{ $item->mobile ?? '-' }}
                             </td>
                             <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                {{ $item->course->name ?? '-' }}
+                                {{ $item->department->name ?? '-' }}
                             </td>
                             <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                {{ $item->discount ?? '-' }}
+                                {{ $item->payments->discount ?? '-' }}
                             </td>
                             <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                {{ $item->total ?? '-' }}
+                                {{ $item->payments->total ?? '-' }}
                             </td>
                             <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                {{ $item->pay ?? '-' }}
+                                {{ $item->payments->pay ?? '-' }}
                             </td>
                             <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                {{ $item->due ?? '-' }}
+                                {{ $item->payments->due ?? '-' }}
                             </td>
                             <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
                                 <button wire:loading.remove wire:click="sendmailConfirm({{ $item->id }})" wire:target="sendmailConfirm({{ $item->id }})" class="text-blue-500">

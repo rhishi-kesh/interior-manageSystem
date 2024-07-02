@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admission;
 
+use App\Models\Payment;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Student;
@@ -16,7 +17,7 @@ class StudentsList extends Component
     public $sortDirection = 'DESC', $sortColumn = 'created_at', $perpage = 50, $search = '', $delete_id, $student_status;
 
     public function render(){
-        $students = Student::with(['pament_mode:id,name','batch:id,name'])
+        $students = Student::with(['batch:id,name'])
         ->search($this->search)
         ->orderBy($this->sortColumn, $this->sortDirection)
         ->paginate($this->perpage);
@@ -34,7 +35,7 @@ class StudentsList extends Component
     }
 
     public function admissionfee($id){
-        $student = Student::where('id', $id)->first();
+        $student = Payment::where('student_id', $id)->first();
 
         if($student->admissionFee == 0){
             $student->update([

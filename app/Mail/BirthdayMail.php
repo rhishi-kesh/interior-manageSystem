@@ -30,7 +30,7 @@ class BirthdayMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Birthday Mail',
+            subject: 'Birthday',
         );
     }
 

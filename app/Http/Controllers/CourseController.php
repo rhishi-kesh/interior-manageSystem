@@ -21,6 +21,6 @@ class CourseController extends Controller
             $classTaken = $course->attendance()->where('course_id', $course)->groupBy('date')->count();
         }
 
-        return view('application.course.myStudentCourse', compact('student',));
+        return view('application.course.myStudentCourse', compact('student'));
     }
 }

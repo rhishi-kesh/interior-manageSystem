@@ -125,6 +125,7 @@ class StudentHomeworkView extends Component
             $data = [
                 'name'=> auth()->guard('student')->user()->name,
                 'email'=> auth()->guard('student')->user()->email,
+                'mentorName'=> $mentor->name,
             ];
 
             //Mail Send

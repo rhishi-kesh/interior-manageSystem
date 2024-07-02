@@ -14,24 +14,26 @@ class Due extends Component
 {
     use WithPagination;
     use Utils;
-    public $total, $pay, $due, $payment, $isUpdate, $studentMailId, $students, $totalAmount, $startDate, $endDate;
+    public $total, $pay, $due, $payment, $isUpdate, $studentMailId, $students = [], $totalAmount, $startDate, $endDate;
 
     protected $listeners = [
         'sendComfirm' => 'sendDueMail',
     ];
 
-    // public function updated() {
-    //     $npayment = $this->payment ?? 0;
-    //     $student = Student::findOrFail($this->isUpdate);
-    //     $npay = $student->pay ?? 0;
-    //     $ndue = $student->due ?? 0;
-    //     $this->pay = (float) $npay + (float) $npayment;
-    //     $this->due = (float) $ndue - (float) $npayment;
-    // }
+    public function updated() {
+        $npayment = $this->payment ?? 0;
+        $student = Student::findOrFail($this->isUpdate);
+        $npay = $student->pay ?? 0;
+        $ndue = $student->due ?? 0;
+        $this->pay = (float) $npay + (float) $npayment;
+        $this->due = (float) $ndue - (float) $npayment;
+    }
 
     public function mount() {
-        $this->students = Payment::query()
-        ->where('due', '>', 0)
+        $this->students = Student::query()
+        ->whereHas('payments', function ($q) {
+            $q->where('due', ">", 0);
+        })
         ->latest()
         ->get();
     }
@@ -47,18 +49,20 @@ class Due extends Component
             'endDate' => 'required',
         ]);
 
-        $this->students = Payment::query()
-        ->where('due', '>', 0)
+        $this->students = Student::query()
+        ->whereHas('payments', function ($q) {
+            $q->where('due', ">", 0);
+        })
         ->whereBetween('created_at', [$this->startDate, $this->endDate])
         ->latest()
         ->get();
     }
 
     public function ShowUpdateModel($id){
-        $student = Payment::findOrFail($id);
-        $this->total = $student->total;
-        $this->pay = $student->pay;
-        $this->due = $student->due;
+        $student = Student::findOrFail($id);
+        $this->total = $student->payments->total;
+        $this->pay = $student->payments->pay;
+        $this->due = $student->payments->due;
         $this->isUpdate = $student->id;
     }
 
@@ -66,17 +70,17 @@ class Due extends Component
     {
         $validated = $this->validate([
             'total' => 'required|numeric',
-            'pay' => 'required|numeric',
+            // 'pay' => 'required|numeric',
             'due' => 'required|numeric',
             'payment' => 'required|numeric',
         ]);
-        $done = Payment::where('id', $this->isUpdate)->update([
+        $done = Payment::where('student_id', $this->isUpdate)->update([
             'pay' => $this->pay,
             'due' => $this->due,
             'updated_at' => Carbon::now(),
         ]);
         if($done){
-            $this->reset();
+            // $this->reset();
             $this->dispatch('swal', [
                 'title' => 'Data Update Successfull',
                 'type' => "success",

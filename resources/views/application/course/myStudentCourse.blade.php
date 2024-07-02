@@ -16,7 +16,7 @@
                             </div>
                             <div class="p-4">
                                 @php
-                                    $classTaken = count($item->attendance->where('course_id', $item->id)->groupBy('date'));
+                                    $classTaken = count($item->attendance->where('course_id', $item->id)->where('batch_id', auth()->guard('student')->user()->batch_id)->groupBy('date'));
                                     $totalClass = $item->certificate_criteria->lecture;
                                     $completedClsss = ($classTaken * 100) / $totalClass;
                                 @endphp

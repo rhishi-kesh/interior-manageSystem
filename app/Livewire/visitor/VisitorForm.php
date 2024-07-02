@@ -9,6 +9,7 @@ use App\Models\Visitors;
 use App\Utils;
 use App\Models\Course;
 use App\Models\AdmissionBooth;
+use App\Models\Department;
 use Carbon\Carbon;
 class VisitorForm extends Component
 {
@@ -16,7 +17,7 @@ class VisitorForm extends Component
     public $name, $course_name, $amount, $mobile, $address, $email, $visitor_comment, $gender, $ref_name, $admission_booth_name, $calling_person, $comments, $counseling, $status, $course_id;
     public function render() {
         $counciling = Councilings::get();
-        $courses = Course::get();
+        $courses = Department::get();
         $admissionBooth = AdmissionBooth::get();
         return view('livewire.visitor.visitor-form', compact('counciling', 'courses', 'admissionBooth'));
     }
@@ -62,7 +63,7 @@ class VisitorForm extends Component
         ];
 
         //SMS Message
-        $message = 'Rhishi Testing SMS';
+        $message = "Dear $this->name, Thank you so much for visiting us. You can get more information about our courses here: https://rayhansict.com/our-courses. You can also join our upcoming free seminar/masterclass here: https://rayhansict.com/seminar. Additionally, you can check our reviews here: https://rayhansict.com/our-success.";
 
         if ($done) {
             dispatch(new SendVisitorMail($data, $message, $this->mobile));

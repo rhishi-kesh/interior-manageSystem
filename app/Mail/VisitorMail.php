@@ -28,7 +28,7 @@ class VisitorMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Visitor Mail',
+            subject: 'Thank You for Visiting Interior Bangladesh',
         );
     }
 
@@ -38,7 +38,7 @@ class VisitorMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.admissionMail',
+            view: 'mail.visitorMail',
         );
     }
 

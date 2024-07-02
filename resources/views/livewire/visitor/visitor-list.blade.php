@@ -48,20 +48,20 @@
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Name</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Number</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Email</th>
-                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Course Name</th>
-                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">CounselPerson</th>
+                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Department Name</th>
+                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Counsel Person</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Status</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Address</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Amount</th>
-                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Visitor Comment</th>
+                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Visitor Comment</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Gender</th>
-                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Reference Name</th>
-                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Admission Booth Name</th>
-                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Admission Booth Number</th>
-                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Calling Person</th>
+                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Reference Name</th>
+                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Admission Booth Name</th>
+                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Admission Booth Number</th>
+                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Calling Person</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Comments</th>
-                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Call Count</th>
-                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Calling Date</th>
+                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Call Count</th>
+                        <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Calling Date</th>
                         <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Action</th>
                     </tr>
                 </thead>

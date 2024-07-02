@@ -53,9 +53,9 @@
                 @endif
             </div>
             <div class="mb-1">
-                <label for="course_name" class="my-label">Course Name</label>
+                <label for="course_name" class="my-label">Department Name</label>
                 <select name="course_name" wire:model="course_name" id="course_name" class="my-input focus:outline-none focus:shadow-outline">
-                    <option value="">Select Course</option>
+                    <option value="">Select Department</option>
                     @foreach ($courses as $course)
                         <option value="{{ $course->id }}">{{ $course->name }}</option>
                     @endforeach

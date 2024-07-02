@@ -95,7 +95,7 @@
                                     <b>Mentor: </b>
                                     @if (count($data->mentors) > 0)
                                         @foreach ($data->mentors as $item)
-                                            {{ $item->name ?? '-' }}
+                                            {{ $item->name ?? '-' }},
                                         @endforeach
                                     @else
                                         Not Assigned
@@ -105,25 +105,20 @@
                             <div class="h-[120px] flex flex-col justify-between border-b">
                                 <div class="mentor-image flex justify-end pr-5 md:pr-10">
                                     <div class="flex -space-x-14 rtl:space-x-reverse">
-                                        <img class="w-[100px] h-[100px] border-2 border-white rounded-full dark:border-gray-800" src="{{ asset('profile.jpeg') }}" alt="">
-                                        <img class="w-[100px] h-[100px] border-2 border-white rounded-full dark:border-gray-800" src="{{ asset('profile.jpeg') }}" alt="">
-                                        <img class="w-[100px] h-[100px] border-2 border-white rounded-full dark:border-gray-800" src="{{ asset('profile.jpeg') }}" alt="">
-                                        <img class="w-[100px] h-[100px] border-2 border-white rounded-full dark:border-gray-800" src="{{ asset('profile.jpeg') }}" alt="">
+                                        @if (count($data->mentors) > 0)
+                                            @foreach ($data->mentors as $item)
+                                                @if (empty($item->image))
+                                                    <div class="w-[100px] h-[100px] rounded-full -mt-14 bg-orange-500 text-white flex justify-center items-center text-5xl">
+                                                        {{ mb_substr(strtoupper($item->name), 0, 1) }}
+                                                    </div>
+                                                @else
+                                                    <img class="w-[100px] h-[100px] rounded-full -mt-14 bg-white" src="{{ asset('storage/' . $item->image) }}" alt="img" width="150" height="100" />
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <img src="{{ asset('profile.jpeg') }}" alt="" class="w-[100px] h-[100px] rounded-full -mt-14">
+                                        @endif
                                     </div>
-                                    {{-- @if (count($data->mentors) > 0)
-                                        @foreach ($data->mentors as $item)
-                                            @if (empty($item->image))
-                                                <div class="w-[100px] h-[100px] rounded-full -mt-14 bg-orange-500 text-white flex justify-center items-center text-5xl">
-                                                    {{ mb_substr(strtoupper($item->name), 0, 1) }}
-                                                </div>
-                                            @else
-                                                <img class="w-[100px] h-[100px] rounded-full -mt-14 bg-white" src="{{ asset('storage/' . $item->image) }}" alt="img" width="150" height="100" />
-                                            @endif
-                                        @endforeach
-                                    @else
-                                        <img src="{{ asset('profile.jpeg') }}" alt="" class="w-[100px] h-[100px] rounded-full -mt-14">
-                                    @endif --}}
-
                                 </div>
                                 <div class="flex items-center justify-end -space-x-1 p-3 select-none">
                                     @foreach ($data->students as $data2)
@@ -263,7 +258,7 @@
                                     <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Student ID</th>
                                     <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Profile</th>
                                     <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Name</th>
-                                    <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Course</th>
+                                    <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Department</th>
                                     <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Action</th>
                                 </tr>
                             </thead>
@@ -291,7 +286,7 @@
                                         <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
                                             {{ $data->name }}</td>
                                         <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                            {{ $data->course->name ?? '-' }}</td>
+                                            {{ $data->department->name ?? '-' }}</td>
                                         <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
                                             {{-- Edit Button --}}
                                             <button wire:click="removeStudentAlert({{ $data->id }})"

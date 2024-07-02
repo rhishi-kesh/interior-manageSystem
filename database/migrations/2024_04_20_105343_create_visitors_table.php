@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->string('name')->nullable();
             $table->string('mobile',20)->nullable();
-            $table->string('email')->unique();
+            $table->string('email')->nullable();
             $table->foreignId('course_id');
             $table->string('address')->nullable();
             $table->string('amount')->nullable();

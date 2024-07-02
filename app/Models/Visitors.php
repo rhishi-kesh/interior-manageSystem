@@ -34,7 +34,7 @@ class Visitors extends Model
     }
     public function course(): HasOne
     {
-        return $this->hasOne(Course::class,'id','course_id');
+        return $this->hasOne(Department::class,'id','course_id');
     }
     public function admissionBooth(): HasOne
     {

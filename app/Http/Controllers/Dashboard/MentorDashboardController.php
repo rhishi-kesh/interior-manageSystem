@@ -20,20 +20,21 @@ class MentorDashboardController extends Controller
         //             ->where('status', 'running')
         //             ->count();
         $runningBatch = 0;
-        $totalStudent = 0;
-        $totalRunningStudent = 0;
-        // $totalStudent = Student::query()
-        //             ->whereHas('batch', function ($q) {
-        //                 $q->where('mentor_id', auth()->guard('mentor')->user()->id);
-        //             })
-        //             ->count();
+        $totalStudent = Student::whereHas('batch', function ($q) {
+            $q->whereHas('mentors', function ($q) {
+                $q->where('mentor_id', auth()->guard('mentor')->user()->id);
+            });
+        })->count();
 
-        // $totalRunningStudent = Student::query()
-        //             ->where('student_status', 'running')
-        //             ->whereHas('batch', function ($q) {
-        //                 $q->where('mentor_id', auth()->guard('mentor')->user()->id);
-        //             })
-        //             ->count();
+
+        $totalRunningStudent = Student::query()
+                        ->where('student_status', 'running')
+                        ->whereHas('batch', function ($q) {
+                            $q->whereHas('mentors', function ($q) {
+                                $q->where('mentor_id', auth()->guard('mentor')->user()->id);
+                            });
+                        })->count();
+
         $mentorNotice = Notice::query()
                     ->where('is_seen', 1)
                     ->where('user_id', auth()->guard('mentor')->user()->id)

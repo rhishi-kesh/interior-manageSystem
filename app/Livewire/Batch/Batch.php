@@ -159,7 +159,7 @@ class Batch extends Component
         $this->isBatch = true;
         $this->singlebatch = Batchs::where('id',$id)
                 ->select('id', 'name')
-                ->with('students','students.course')
+                ->with('students','students.department')
                 ->latest()
                 ->first();
     }

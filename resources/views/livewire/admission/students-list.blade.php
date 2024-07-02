@@ -68,7 +68,7 @@
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Guardian Mobile No.</th>
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Qualification</th>
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Profession</th>
-                            <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Course Name</th>
+                            <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Department Name</th>
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Scholarship</th>
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Total Amount</th>
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Total Pay</th>
@@ -130,25 +130,25 @@
                                     {{ $student->profession ?? "-" }}
                                 </td>
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                    {{ $student->course->name ?? "-" }}
+                                    {{ $student->department->name ?? "-" }}
                                 </td>
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                    {{ $student->discount ?? "-" }}
+                                    {{ $student->payments->discount ?? "-" }}
                                 </td>
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                    {{ $student->total ?? "-" }}
+                                    {{ $student->payments->total ?? "-" }}
                                 </td>
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                    {{ $student->pay ?? "-" }}
+                                    {{ $student->payments->pay ?? "-" }}
                                 </td>
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                    {{ $student->due ?? "-" }}
+                                    {{ $student->payments->due ?? "-" }}
                                 </td>
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                    {{ $student->pament_mode->name ?? '-' }}
+                                    {{ $student->payments->pament_mode->name ?? '-' }}
                                 </td>
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                    {{ $student->paymentNumber ?? "-" }}
+                                    {{ $student->payments->paymentNumber ?? "-" }}
                                 </td>
                                 </td>
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
@@ -163,7 +163,7 @@
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a]">
                                     <div class="flex justify-center items-center">
                                         <label class="w-12 h-6 relative">
-                                            <input type="checkbox" class="checkbox peer" id="custom_switch_checkbox6" @if($student->admissionFee == '1') checked @else {{ '' }} @endif wire:click="admissionfee({{ $student->id }})" />
+                                            <input type="checkbox" class="checkbox peer" id="custom_switch_checkbox6" @if($student->payments->admissionFee == '1') checked @else @endif wire:click="admissionfee({{ $student->id }})" />
                                             <span for="custom_switch_checkbox6" class="checkboxSpan"></span>
                                         </label>
                                     </div>
@@ -203,9 +203,9 @@
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] flex mt-2" >
 
                                     {{-- Edit Button --}}
-                                    <a href="{{ route('studentsEdit', $student->id) }}" type="button" x-tooltip="Edit">
+                                    {{-- <a href="{{ route('studentsEdit', $student->id) }}" type="button" x-tooltip="Edit">
                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pencil text-green-500"><path class="text-green-500" stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
-                                    </a>
+                                    </a> --}}
 
                                     {{-- Delete Button --}}
                                     <button type="button" x-tooltip="Delete" wire:click="deleteAlert({{ $student->id }})">

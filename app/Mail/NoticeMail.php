@@ -28,7 +28,7 @@ class NoticeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Notice Mail',
+            subject: 'Notice',
         );
     }
 

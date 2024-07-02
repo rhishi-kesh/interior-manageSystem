@@ -20,6 +20,7 @@ class Ticket extends Component
     }
 
     public function insert() {
+
         $validated = $this->validate([
             'subject' => 'required',
         ]);
@@ -34,10 +35,11 @@ class Ticket extends Component
         ]);
 
         // SMS Message
-        $message = "HomeWork";
+        $message = "Dear Team, I would like to inform you that". auth()->guard('student')->user()->name ."has created a ticket. Please review and address it promptly. Thank you.";
 
         //Mail Data
         $data = [
+            'name'=> auth()->guard('student')->user()->name,
             'subject'=> $this->subject,
         ];
 

@@ -37,13 +37,19 @@ class Student extends Authenticatable
         return $this->belongsToMany(Course::class);
     }
 
-    public function pament_mode(): HasOne
+    public function payments(): HasOne
     {
-        return $this->hasOne(PaymentMode::class,'id','paymentType');
+        return $this->hasOne(Payment::class,'student_id','id');
     }
+
     public function certificate_criteria(): HasOne
     {
         return $this->hasOne(CertificateCriterias::class,'student_id','id');
+    }
+
+    public function department(): HasOne
+    {
+        return $this->hasOne(Department::class,'id','department_id');
     }
 
     public function batch(): HasOne

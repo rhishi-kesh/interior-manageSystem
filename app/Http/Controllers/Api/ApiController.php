@@ -127,40 +127,40 @@ class ApiController extends Controller
     }
 
     public function courses() {
-        $allCourses = Course::where('is_web', 0)->get();
+        $allCourses = Department::get();
         return $allCourses;
     }
 
-    public function coursesIsfooter() {
-        $allCourses = Course::where('is_web', 0)->where('is_footer', 0)->get();
-        return $allCourses;
-    }
+    // public function coursesIsfooter() {
+    //     $allCourses = Course::where('is_web', 0)->where('is_footer', 0)->get();
+    //     return $allCourses;
+    // }
 
-    public function coursesTopSale() {
-        $allCourses = Course::where('is_web', 0)->where('best_selling', 0)->get();
-        return $allCourses;
-    }
+    // public function coursesTopSale() {
+    //     $allCourses = Course::where('is_web', 0)->where('best_selling', 0)->get();
+    //     return $allCourses;
+    // }
 
-    public function webdepartment() {
-        $allDepartments = Department::get();
-        return $allDepartments;
-    }
+    // public function webdepartment() {
+    //     $allDepartments = Department::get();
+    //     return $allDepartments;
+    // }
 
-    public function singleDepartment($slug) {
-        $department = Department::select('id','name')->where('slug',$slug)->first();
+    // public function singleDepartment($slug) {
+    //     $department = Department::select('id','name')->where('slug',$slug)->first();
 
-        $course = Course::where('is_web', 0)->where('department_id', $department->id)->get();
+    //     $course = Course::where('is_web', 0)->where('department_id', $department->id)->get();
 
-        return $course;
-    }
+    //     return $course;
+    // }
 
-    public function singleCourse($slug) {
-        $course = Course::query()
-                    ->with('department', 'courseLearnings', 'courseForThose', 'courseBenefits', 'creativeProject', 'courseModule', 'courseFaq')
-                    ->where('slug',$slug)
-                    ->where('is_web', '0')
-                    ->latest()
-                    ->first();
-        return $course;
-    }
+    // public function singleCourse($slug) {
+    //     $course = Course::query()
+    //                 ->with('department', 'courseLearnings', 'courseForThose', 'courseBenefits', 'creativeProject', 'courseModule', 'courseFaq')
+    //                 ->where('slug',$slug)
+    //                 ->where('is_web', '0')
+    //                 ->latest()
+    //                 ->first();
+    //     return $course;
+    // }
 }

@@ -28,7 +28,7 @@ class TicketMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Ticket Mail',
+            subject: 'Ticket Creation Notification',
         );
     }
 
