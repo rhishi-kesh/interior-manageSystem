@@ -13,7 +13,7 @@ class Student extends Authenticatable
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'student_id', 'name', 'fName', 'mName', 'email', 'address', 'mobile', 'qualification', 'profession', 'guardianMobileNo', 'courseName', 'paymentType', 'pay', 'due', 'total', 'bkashNo', 'admissionFee', 'discount','student_status', 'is_certificate', 'dateofbirth'
+        'student_id', 'is_fromSite', 'password', 'name', 'fName', 'mName', 'email', 'address', 'mobile', 'qualification', 'profession', 'guardianMobileNo', 'student_status', 'is_certificate', 'dateofbirth', 'gender', 'profile', 'department_id'
     ];
 
     protected $hidden = [
@@ -32,14 +32,29 @@ class Student extends Authenticatable
         ->orwhere('mobile', 'like', "%{$value}%");
     }
 
-    public function course(): HasOne
+    public function courses()
     {
-        return $this->hasOne(Course::class,'id','course_id');
+        return $this->belongsToMany(Course::class);
     }
 
     public function pament_mode(): HasOne
     {
         return $this->hasOne(PaymentMode::class,'id','paymentType');
+    }
+
+    public function certificate_criteria(): HasOne
+    {
+        return $this->hasOne(CertificateCriterias::class,'student_id','id');
+    }
+
+    public function department(): HasOne
+    {
+        return $this->hasOne(Department::class,'id','department_id');
+    }
+
+    public function payments(): HasOne
+    {
+        return $this->hasOne(Payment::class,'student_id','id');
     }
 
     public function batch(): HasOne

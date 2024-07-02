@@ -11,7 +11,7 @@
             </h2>
             <p class="text-center py-2 font-semibold text-gray-500">{{ $student->email }}, {{ $student->mobile }}</p>
 
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-3 p-8">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 p-8">
 
                 {{-- admissionOnCourse --}}
                 <div class="rounded-xl bg-gray-200 text-gray-700">
@@ -25,7 +25,7 @@
                         <div class="flex justify-center gap-3">
                             <p>
                                 <b class="text-blue-500">Total:</b>
-                                <span class="text-orange-500">{{ count($homeworkReport) }}</span>
+                                <span class="text-orange-500">{{ $totalHomework }}</span>
                             </p>
                             @foreach ($homeworkReport as $key => $item)
                                 <p class="text-center">
@@ -49,7 +49,7 @@
                         <div class="flex justify-center gap-3">
                             <p>
                                 <b class="text-blue-500">Total:</b>
-                                <span class="text-orange-500">{{ count($attendanceReport) }}</span>
+                                <span class="text-orange-500">{{ $totalAttendance }}</span>
                             </p>
                             @foreach ($attendanceReport as $key => $item)
                                 <p>
@@ -60,11 +60,8 @@
                         </div>
                     </div>
                 </div>
-                <div>
-
-                </div>
             </div>
-            <div class="w-full md:w-[50%] mx-auto grid grid-cols-2 md:grid-cols-4 py-5">
+            {{-- <div class="w-full md:w-[50%] mx-auto grid grid-cols-2 md:grid-cols-4 py-5">
                 <p class="text-center mt-2 md:mt-0">
                     <span class="text-orange-500 font-bold text-3xl block">50%</span>
                     <b class="text-xl font-semibold text-blue-500">Homework</b>
@@ -83,7 +80,7 @@
                     </span>
                     <b class="text-xl font-semibold text-blue-500">Overall</b>
                 </p>
-            </div>
+            </div> --}}
             {{-- <div class="Footer bg-gray-100 mb-0 pb-0 w-full">
                 <div class="button py-5 flex justify-center gap-5">
                     <div>

@@ -16,9 +16,9 @@ class Batch extends Model
         return $this->hasMany(Student::class,'batch_id','id');
     }
 
-    public function mentors(): HasMany
+    public function mentors()
     {
-        return $this->hasMany(Mentor::class,'id','mentor_id');
+        return $this->belongsToMany(Mentor::class);
     }
 
     public function course(): HasOne

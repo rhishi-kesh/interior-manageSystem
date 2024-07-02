@@ -22,9 +22,8 @@
                         <tr>
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">SL</th>
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Name</th>
-                            <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Course Fee</th>
-                            <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center text-nowrap">Duration(Month)</th>
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Lecture</th>
+                            <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Exam</th>
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Project</th>
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Thumbnail</th>
                             <th class="p-3 bg-gray-100 dark:bg-gray-800 text-center">Action</th>
@@ -40,16 +39,13 @@
                                     {{ $data->name ?? '-' }}
                                 </td>
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                    {{ $data->fee ?? '-' }}
-                                </td>
-                                <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                    {{ $data->duration ?? '-' }}
-                                </td>
-                                <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
                                     {{ $data->lecture }}
                                 </td>
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                    {{ $data->project }}
+                                    {{ $data->exam }}
+                                </td>
+                                <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
+                                    {{ $data->project ?? '-' }}
                                 </td>
                                 <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] flex justify-center">
                                     <img class="shadow-[0_0_15px_1px_rgba(113,106,202,0.30)] dark:shadow-none"
@@ -161,8 +157,11 @@
                 <div class="p-5 bg-gray-200 dark:bg-gray-800 text-left">
 
                     <form method="post"
-                        @if (!empty($update_id)) wire:submit="update"
-                        @else wire:submit="insert" @endif>
+                        @if (!empty($update_id))
+                            wire:submit="update"
+                        @else
+                            wire:submit="insert"
+                        @endif>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
                             <div class="mb-1">
                                 <label for="Name" class="my-label">Course Name</label>
@@ -173,69 +172,37 @@
                                 @endif
                             </div>
                             <div class="mb-1">
-                                <label for="courseFee" class="my-label">Course Fee</label>
-                                <input type="number" wire:model="courseFee" placeholder="Course Fee" id="courseFee"
-                                    class="my-input focus:outline-none focus:shadow-outline appearance-none">
-                                @if ($errors->has('courseFee'))
-                                    <div class="text-red-500">{{ $errors->first('courseFee') }}</div>
-                                @endif
-                            </div>
-                            <div class="mb-1">
-                                <div wire:ignore>
-                                    <label for="duration" class="my-label"> Duration (Month)</label>
-                                    <input type="number" wire:model="duration" placeholder="Course duration"
-                                        id="duration" class="my-input focus:outline-none focus:shadow-outline">
-                                </div>
-                                @if ($errors->has('duration'))
-                                    <div class="text-red-500">{{ $errors->first('duration') }}</div>
-                                @endif
-                            </div>
-                            <div class="mb-1">
                                 <label for="lecture" class="my-label">Lecture</label>
-                                <input type="number" wire:model="lecture" placeholder="Lecture" id="lecture"
-                                    class="my-input focus:outline-none focus:shadow-outline appearance-none">
+                                <input type="number" wire:model="lecture" placeholder="Lecture" id="lecture" class="my-input focus:outline-none focus:shadow-outline appearance-none">
                                 @if ($errors->has('lecture'))
                                     <div class="text-red-500">{{ $errors->first('lecture') }}</div>
                                 @endif
                             </div>
                             <div class="mb-1">
                                 <label for="project" class="my-label">Project</label>
-                                <input type="number" wire:model="project" placeholder="project"
+                                <input type="number" wire:model="project" placeholder="Project"
                                     class="my-input focus:outline-none focus:shadow-outline appearance-none">
                                 @if ($errors->has('project'))
                                     <div class="text-red-500">{{ $errors->first('project') }}</div>
                                 @endif
                             </div>
                             <div class="mb-1">
-                                <label for="department_id" class="my-label">Department Name</label>
-                                <select name="department_id" wire:model.live.debounce.1000ms="department_id"
-                                    id="department_id" class="my-input focus:outline-none focus:shadow-outline  bg-white">
-                                    <option value="department_id"> Select Course </option>
-                                    @foreach ($departments as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('department_id'))
-                                    <div class="text-red-500">{{ $errors->first('department_id') }}</div>
-                                @endif
-                            </div>
-                            <div class="mb-1">
-                                <label for="video" class="my-label">Video</label>
-                                <input type="url" wire:model="video" placeholder="video" id="video"
+                                <label for="exam" class="my-label">Exam</label>
+                                <input type="number" wire:model="exam" placeholder="Exam"
                                     class="my-input focus:outline-none focus:shadow-outline appearance-none">
-                                @if ($errors->has('video'))
-                                    <div class="text-red-500">{{ $errors->first('video') }}</div>
+                                @if ($errors->has('exam'))
+                                    <div class="text-red-500">{{ $errors->first('exam') }}</div>
                                 @endif
                             </div>
-                            <div class="mb-1">
+                            <div class="mb-1 col-span-2">
                                 <label for="description" class="my-label">Description</label>
-                                <textarea wire:model="description" placeholder="description" class="my-input focus:outline-none focus:shadow-outline appearance-none" name="description" id="description" cols="5" rows="1">
+                                <textarea wire:model="description" placeholder="Description" class="my-input focus:outline-none focus:shadow-outline appearance-none" name="description" id="description" rows="3">
                                 </textarea>
                                 @if ($errors->has('description'))
                                     <div class="text-red-500">{{ $errors->first('description') }}</div>
                                 @endif
                             </div>
-                            <div class="mb-1">
+                            <div class="mb-1 col-span-2">
                                 <label class="my-label pt-0" for="image">Thumbnail</label>
                                 <input wire:model="image" class="my-input focus:outline-none focus:shadow-outline appearance-none bg-white" id="image" type="file">
                                 <div wire:loading="" wire:target="image" class="text-green-500">
@@ -259,8 +226,8 @@
                         </div>
                         <div class="flex justify-end items-center mt-4">
                             <button type="reset" class="btn btn-reset">Reset</button>
-                            <button type="submit" class="btn-submit btn ml-4" wire:loading.remove>Save</button>
-                            <button type="button" disabled class="btn-submit btn ml-4" wire:loading>Loading</button>
+                            <button type="submit" @if (!empty($update_id)) wire:target="update" @else wire:target="insert" @endif class="btn-submit btn ml-4" wire:loading.remove>Save</button>
+                            <button type="button" @if (!empty($update_id)) wire:target="update" @else wire:target="insert" @endif disabled class="btn-submit btn ml-4" wire:loading>Loading</button>
                         </div>
                     </form>
                 </div>

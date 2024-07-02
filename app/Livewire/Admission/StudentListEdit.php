@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
 class StudentListEdit extends Component
 {
-    public $name, $fatherName, $motherName, $mobileNumber, $address, $email, $gMobile, $qualification, $gender, $profession, $courseId = null, $discount = null, $paymentType, $totalAmount, $totalPay = null, $totalDue, $paymentNumber, $classday = [], $date, $courseFee, $course = [], $paymentTypes = [], $update_slug;
+    public $name, $fatherName, $motherName, $mobileNumber, $address, $email, $gMobile, $qualification, $gender, $profession, $courseId = null, $discount = null, $paymentType, $totalAmount, $totalPay = null, $totalDue, $paymentNumber, $classday = [], $date, $courseFee, $course = [], $paymentTypes = [], $update_id;
     public function updated($discount)
     {
         $singleCourse = Course::where('id', $this->courseId)->first(['fee']);
@@ -32,9 +32,9 @@ class StudentListEdit extends Component
         $this->totalAmount = $this->courseFee;
         $this->totalDue = $this->courseFee;
     }
-    public function mount($slug){
-        $data = Student::where('slug', $slug)->first();
-        $this->update_slug = $slug;
+    public function mount($id){
+        $data = Student::where('id', $id)->first();
+        $this->update_id = $id;
         $this->name = $data->name;
         $this->fatherName = $data->fName;
         $this->motherName = $data->mName;
@@ -62,13 +62,6 @@ class StudentListEdit extends Component
         return view('livewire.admission.student-list-edit');
     }
     public function submit() {
-        //slug Generate
-        $searchName = Student::where('name', $this->name)->first('name');
-        if($searchName){
-            $slug = Str::slug($this->name) . rand();
-        }else{
-            $slug = Str::slug($this->name);
-        }
 
         //Multiful ClassDay Upload
         $previousClassday = $this->classday;
@@ -85,7 +78,7 @@ class StudentListEdit extends Component
             'motherName' => 'required',
             'mobileNumber' => 'required|regex:/^(?:\+?88)?01[35-9]\d{8}$/',
             'address' => 'required',
-            'email' => 'nullable|unique:students,name,' . $this->update_slug,
+            'email' => 'nullable|unique:students,name,' . $this->update_id,
             'gMobile' => 'required|regex:/^(?:\+?88)?01[35-9]\d{8}$/',
             'qualification' => 'required',
             'profession' => 'required',
@@ -97,9 +90,8 @@ class StudentListEdit extends Component
         ]);
 
         // //insert
-        $done = Student::where('slug', $this->update_slug)->update([
+        $done = Student::where('slug', $this->update_id)->update([
             'name' => $this->name,
-            'slug' => $slug,
             'fName' => $this->fatherName,
             'mName' => $this->motherName,
             'email' => $this->email,

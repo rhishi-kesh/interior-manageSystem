@@ -12,21 +12,15 @@ use Illuminate\Support\Facades\Validator;
 use App\Utils;
 use Illuminate\Support\Facades\Hash;
 use App\Jobs\SendAdmissionMail;
+use App\Models\CertificateCriterias;
 use App\Models\Department;
+use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
 
 class ApiController extends Controller
 {
     use Utils;
     public function admissionWeb(Request $request){
-
-        //slug Generate
-        $searchName = Student::where('name', $request->name)->first('name');
-        $slug = '';
-        if($searchName) {
-            $slug = Str::slug($request->name) . rand();
-        } else{
-            $slug = Str::slug($request->name);
-        }
 
         //user id and Password generate
         $user_id = $this->generateCode('Student', '202');
@@ -51,56 +45,83 @@ class ApiController extends Controller
             'motherName' => 'required',
             'mobileNumber' => 'required|regex:/^(?:\+?88)?01[35-9]\d{8}$/',
             'address' => 'required',
-            'email' => 'required|unique:students',
+            'email' => 'nullable|unique:students',
             'gMobile' => 'required|regex:/^(?:\+?88)?01[35-9]\d{8}$/',
             'qualification' => 'required',
             'profession' => 'required',
-            'course' => 'required',
+            'departmentID' => 'required',
+            'gender'   => 'required',
             'date' => 'required',
             'image' => 'required',
-            'gender' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         }else{
             //insert
-            $done = Student::insert([
-                'student_id' => $user_id,
-                'is_fromSite' => 1,
-                'name' => $request->name,
-                'slug' => $slug,
-                'fName' => $request->fatherName,
-                'mName' => $request->motherName,
-                'email' => $request->email,
-                'dateofbirth' => $request->date,
-                'password' => $password_hash,
-                'address' => $request->address,
-                'mobile' => $request->mobileNumber,
-                'qualification' => $request->qualification,
-                'profession' => $request->profession,
-                'guardianMobileNo' => $request->gMobile,
-                'gender' => $request->gender,
-                'admissionFee' => 0,
-                'course_id' => $request->course,
-                'due' => $course->fee,
-                'total' => $course->fee,
-                'profile' => $fileName,
-                'created_at' => Carbon::now(),
-            ]);
+            DB::beginTransaction();
+            try {
+                $student = Student::create([
+                    'student_id' => $user_id,
+                    'is_fromSite' => 1,
+                    'name' => $request->name,
+                    'fName' => $request->fatherName,
+                    'mName' => $request->motherName,
+                    'email' => $request->email,
+                    'dateofbirth' => $request->date,
+                    'department_id' => $request->departmentID,
+                    'password' => $password_hash,
+                    'address' => $request->address,
+                    'mobile' => $request->mobileNumber,
+                    'qualification' => $request->qualification,
+                    'profession' => $request->profession,
+                    'guardianMobileNo' => $request->gMobile,
+                    'gender' => $request->gender,
+                    'profile' => $fileName,
+                    'created_at' => Carbon::now(),
+                ]);
 
-            $data = [
-                'name'=> $request->name,
-                'email'=> $request->email,
-                'user_id'=> $user_id,
-                'password'=> $password,
-            ];
+                $department = Department::where('id', $request->departmentID)->first();
 
-            //SMS Message
-            $message = "Rhishi Admission Form Website User ID: $user_id  Password: $password";
+                Payment::insert([
+                    'student_id' => $student->id,
+                    'due' => $department->fee,
+                    'total' => $department->fee,
+                    'created_at' => Carbon::now(),
+                ]);
 
-            if($done){
+                $department = Department::findOrFail($request->departmentID);
+                foreach($department->courses as $course){
+                    $course = Course::where('id', $course->id)->first();
+                    $student->courses()->attach($course->id);
+
+                    $certificate = CertificateCriterias::insert([
+                        'student_id' => $student->id,
+                        'course_id' => $course->id,
+                        'lecture' => $course->lecture,
+                        'project' => $course->project,
+                        'exam' => $course->exam,
+                        'created_at' => Carbon::now(),
+                    ]);
+                }
+
+                $data = [
+                    'name'=> $request->name,
+                    'email'=> $request->email,
+                    'user_id'=> $user_id,
+                    'password'=> $password,
+                ];
+
+                DB::commit();
+
+                //SMS Message
+                $message = "Rhishi Admission Form Website User ID: $user_id  Password: $password";
+
                 dispatch(new SendAdmissionMail($data, $message, $request->mobileNumber));
                 return response()->json(['status' => 1, 'msg' => 'Admission Successfully Done']);
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return response()->json(['status' => 1, 'msg' => $e->getMessage()]);
             }
         }
     }

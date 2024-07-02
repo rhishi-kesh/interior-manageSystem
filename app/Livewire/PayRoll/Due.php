@@ -3,6 +3,7 @@
 namespace App\Livewire\PayRoll;
 
 use App\Mail\DueMail;
+use App\Models\Payment;
 use Livewire\Component;
 use App\Models\Student;
 use Carbon\Carbon;
@@ -29,7 +30,7 @@ class Due extends Component
     // }
 
     public function mount() {
-        $this->students = Student::with('course:id,name')
+        $this->students = Payment::query()
         ->where('due', '>', 0)
         ->latest()
         ->get();
@@ -46,7 +47,7 @@ class Due extends Component
             'endDate' => 'required',
         ]);
 
-        $this->students = Student::with('course:id,name')
+        $this->students = Payment::query()
         ->where('due', '>', 0)
         ->whereBetween('created_at', [$this->startDate, $this->endDate])
         ->latest()
@@ -54,7 +55,7 @@ class Due extends Component
     }
 
     public function ShowUpdateModel($id){
-        $student = Student::findOrFail($id);
+        $student = Payment::findOrFail($id);
         $this->total = $student->total;
         $this->pay = $student->pay;
         $this->due = $student->due;
@@ -69,7 +70,7 @@ class Due extends Component
             'due' => 'required|numeric',
             'payment' => 'required|numeric',
         ]);
-        $done = Student::where('id', $this->isUpdate)->update([
+        $done = Payment::where('id', $this->isUpdate)->update([
             'pay' => $this->pay,
             'due' => $this->due,
             'updated_at' => Carbon::now(),
@@ -94,10 +95,16 @@ class Due extends Component
         $data = [
             'name'=> $student->name,
             'email'=> $student->email,
+            'departmentName' => $student->department->name,
+            'paidAmount' => $student->payments->pay ?? "Not Paid",
+            'dueAmount' => $student->payments->due,
         ];
 
+        $departmentName = $student->department->name;
+        $paidAmount = $student->payments->pay ?? "Not Paid";
+        $dueAmount = $student->payments->due;
         //SMS Message
-        $message = 'কোর্স এর টাকা পাবো';
+        $message = "Dear $student->name, you have enrolled in the $departmentName course. Amount paid: $paidAmount. Outstanding balance: $dueAmount. Please settle the balance at your earliest convenience. Thank you.";
 
         $this->sendSMS($student->mobile, $message);
         Mail::to($student->email)->send(new DueMail($data));

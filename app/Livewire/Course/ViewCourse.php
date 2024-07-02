@@ -16,15 +16,14 @@ class ViewCourse extends Component
     use WithPagination;
     use WithFileUploads;
 
-    public $name, $courseFee, $description, $duration, $lecture, $mentor_id, $department_id, $project, $image, $video, $oldimage, $update_id, $delete_id;
+    public $name, $description, $lecture, $project, $image, $exam, $oldimage, $update_id, $delete_id;
     protected $listeners = ['deleteConfirm' => 'deleteStudent'];
 
     public function render()
     {
-        $departments = Department::get();
         $courses = Course::latest()->paginate(15);
 
-        return view('livewire.course.view-course', compact('courses', 'departments'));
+        return view('livewire.course.view-course', compact('courses'));
     }
     public function insert()
     {
@@ -38,14 +37,11 @@ class ViewCourse extends Component
 
         $validated = $this->validate([
             'name'  => 'required|unique:courses',
-            'courseFee'   => 'required|numeric',
             'description' => 'required',
-            'duration'  => 'required',
-            'lecture'   => 'required',
-            'project'   => 'nullable',
+            'lecture'   => 'required|numeric',
+            'project'   => 'nullable|numeric',
+            'exam'   => 'required|numeric',
             'image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-            'video'     => 'nullable',
-            'department_id' => 'required',
         ]);
 
         $fileName = "";
@@ -57,14 +53,11 @@ class ViewCourse extends Component
         $done = Course::insert([
             'name' => $this->name,
             'slug' => $slug,
-            'fee' => $this->courseFee,
             'description' => $this->description,
-            'duration' => $this->duration,
             'lecture' => $this->lecture,
             'project' => $this->project,
+            'exam' => $this->exam,
             'thumbnail' => $fileName,
-            'video' => $this->video,
-            'department_id' => $this->department_id,
             'created_at' => Carbon::now(),
         ]);
         if ($done) {

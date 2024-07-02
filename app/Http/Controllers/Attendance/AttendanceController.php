@@ -12,6 +12,7 @@ use Carbon\Carbon;
 
 use App\Exports\SingleAttendanceExport;
 use App\Exports\AttendanceExport;
+use App\Models\Department;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceController extends Controller
@@ -19,7 +20,9 @@ class AttendanceController extends Controller
     public function attendance() {
         $batch = Batch::query()
                 ->select('id', 'name')
-                ->where('mentor_id', Auth::guard('mentor')->user()->id)
+                ->whereHas('mentors', function ($query) {
+                    $query->where('mentor_id', Auth::guard('mentor')->user()->id);
+                })
                 ->withCount('students')
                 ->with('students')
                 ->latest()
@@ -43,14 +46,16 @@ class AttendanceController extends Controller
         $students = Student::where('batch_id', $id)->select('id','name')
         ->latest()
         ->get();
-        $batchName = Batch::where('id', $id)->first('name');
+        $batchName = Batch::where('id', $id)->first();
+        $department = Department::where('id', $batchName->department_id)->first();
 
-        return view('application.attendance.takeAttendance', compact('students', 'id', 'batchName'));
+        return view('application.attendance.takeAttendance', compact('students', 'id', 'batchName', 'department'));
     }
 
     public function attendanceBatchPost(Request $request, $id) {
         $validated = $request->validate([
-            'date' => 'required'
+            'date' => 'required',
+            'course' => 'required'
         ]);
 
         $students = Student::whereIn('id', $request->student_id)->get();
@@ -66,6 +71,7 @@ class AttendanceController extends Controller
                 [
                     'attendance' => $attendance,
                     'batch_id' => $id,
+                    'course_id' => $request->course,
                 ]
             );
         }
@@ -79,14 +85,15 @@ class AttendanceController extends Controller
         ->where('date', $date)
         ->where('batch_id', $id)
         ->get();
-        $batchName = Batch::where('id', $id)->first('name');
-
-        return view('application.attendance.updateAttendance', compact('attendance', 'date', 'id', 'batchName'));
+        $batchName = Batch::where('id', $id)->first();
+        $department = Department::where('id', $batchName->department_id)->first();
+        return view('application.attendance.updateAttendance', compact('attendance', 'date', 'id', 'batchName', 'department'));
     }
 
     public function attendanceUpdate(Request $request, $date, $id) {
         $validated = $request->validate([
-            'date' => 'required'
+            'date' => 'required',
+            'course' => 'required'
         ]);
 
         $students = Student::whereIn('id', $request->student_id)->get();
@@ -97,6 +104,7 @@ class AttendanceController extends Controller
                 'date' => $request->date,
                 'attendance' => $attendance,
                 'batch_id' => $id,
+                'course_id' => $request->course,
             ]);
         }
 

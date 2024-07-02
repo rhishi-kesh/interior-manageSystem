@@ -28,7 +28,7 @@ class UserMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'User Mail',
+            subject: 'Congratulations on Becoming a User',
         );
     }
 

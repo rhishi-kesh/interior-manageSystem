@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Homework;
 use App\Models\Notice;
+use App\Models\Payment;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -13,8 +14,8 @@ class StudentDashboardController extends Controller
 {
     public function studentDashboard(){
 
-        $studentDue = Student::query()
-                    ->where('id', auth()->guard('student')->user()->id)
+        $studentDue = Payment::query()
+                    ->where('student_id', auth()->guard('student')->user()->id)
                     ->first('due');
 
         $studentNotice = Notice::query()
@@ -45,6 +46,16 @@ class StudentDashboardController extends Controller
                     ->where('attendance', 'absent')
                     ->count();
 
+        $attendanceLate = Attendance::query()
+                    ->where('student_id', auth()->guard('student')->user()->id)
+                    ->where('attendance', 'late')
+                    ->count();
+
+        $attendancePresent = Attendance::query()
+                    ->where('student_id', auth()->guard('student')->user()->id)
+                    ->where('attendance', 'present')
+                    ->count();
+
         $homeworkReport = Homework::query()
                     ->selectRaw('status, COUNT(*) as count')
                     ->where('student_id', auth()->guard('student')->id())
@@ -52,6 +63,6 @@ class StudentDashboardController extends Controller
                     ->pluck('count', 'status');
 
 
-        return view('application/studentIndex', compact('studentDue', 'studentNotice', 'studentHomework', 'studentHomeworkComplete', 'attendance', 'attendanceAbsent', 'homeworkReport', 'attendanceReport'));
+        return view('application/studentIndex', compact('studentDue', 'studentNotice', 'studentHomework', 'studentHomeworkComplete', 'attendance', 'attendanceAbsent', 'homeworkReport', 'attendanceReport', 'attendanceLate', 'attendancePresent'));
     }
 }

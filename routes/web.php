@@ -226,6 +226,9 @@ Route::group(['prefix' => 'student','middleware' => ['student']], function () {
     Route::get('/tickets', [TicketController::class, 'ticketindex'])->name('ticketindex');
     Route::get('/tickets/{id}/show', [TicketController::class, 'ticketshow'])->name('ticketshow');
 
+    //My Course
+    Route::get('/my-course', [CourseController::class, 'myCourse'])->name('myCourse');
+
 });
 
 //Mentor Middlewere

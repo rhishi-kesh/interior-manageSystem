@@ -12,7 +12,7 @@
     @foreach($attendances as $item)
         <tr>
             <td>{{ $i++ }}</td>
-            <td>{{ $item->students->name }}</td>
+            <td>{{ $item->students->name ?? '-' }}</td>
             <td style="color: @if($item->attendance == 'present') green @elseif($item->attendance == 'late') yellow @else red @endif">{{ $item->attendance }}</td>
             <td>{{ $item->date }}</td>
         </tr>

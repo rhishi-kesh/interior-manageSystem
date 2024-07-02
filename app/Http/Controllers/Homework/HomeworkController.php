@@ -18,7 +18,14 @@ class HomeworkController extends Controller
 {
     use Utils;
     public function homework() {
-        $batch = Batch::select('id', 'name')->where('mentor_id', Auth::guard('mentor')->user()->id)->withCount('students')->with('students')->latest()->paginate(20);
+        $batch = Batch::select('id', 'name')
+        ->whereHas('mentors', function ($query) {
+            $query->where('mentor_id', Auth::guard('mentor')->user()->id);
+        })
+        ->withCount('students')
+        ->with('students')
+        ->latest()
+        ->paginate(20);
         return view('application.homework.homework', compact('batch'));
     }
 

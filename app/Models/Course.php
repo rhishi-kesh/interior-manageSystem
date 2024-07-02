@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
@@ -12,9 +13,14 @@ class Course extends Model
 
     protected $fillable = [ 'name', 'slug', 'fee', 'description', 'duration', 'lecture', 'project', 'thumbnail', 'video', 'department_id', 'is_web', 'is_footer', 'best_selling'];
 
-    public function department(): HasOne
+    public function departments()
     {
-        return $this->hasOne(Department::class,'id','department_id');
+        return $this->belongsToMany(Department::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
     }
 
     public function courseLearnings()
@@ -45,6 +51,16 @@ class Course extends Model
     public function courseFaq()
     {
         return $this->hasMany(Course_FAQ::class);
+    }
+
+    public function attendance(): HasMany
+    {
+        return $this->hasMany(Attendance::class,'course_id','id');
+    }
+
+    public function certificate_criteria(): HasOne
+    {
+        return $this->hasOne(CertificateCriterias::class,'course_id','id');
     }
 
 }

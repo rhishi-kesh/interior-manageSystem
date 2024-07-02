@@ -11,7 +11,7 @@ class Attendance extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['student_id','attendance','date','batch_id'];
+    protected $fillable = ['student_id','attendance','date','batch_id', 'course_id'];
     public $timestamps = false;
 
     public function students(): HasOne

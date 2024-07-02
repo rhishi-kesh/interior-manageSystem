@@ -4,6 +4,7 @@ namespace App\Http\Controllers\batch;
 
 use App\Http\Controllers\Controller;
 use App\Models\Batch;
+use Illuminate\Support\Facades\Auth;
 
 class BatchController extends Controller
 {
@@ -12,8 +13,10 @@ class BatchController extends Controller
     }
     public function myBatchMentor(){
         $batch = Batch::query()
-                ->with(['attendance', 'course:id,name', 'course.courseModule'])
-                ->where('mentor_id', auth()->guard('mentor')->user()->id)
+                // ->with(['attendance', 'course:id,name', 'course.courseModule'])
+                ->whereHas('mentors', function ($query) {
+                    $query->where('mentor_id', Auth::guard('mentor')->user()->id);
+                })
                 ->latest()
                 ->paginate();
 

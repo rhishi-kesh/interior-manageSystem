@@ -12,14 +12,9 @@ class Department extends Model
     const TABLE = 'departments';
     protected $table = self::TABLE;
 
-    protected $fillable = [
-        'name',
-        'slug',
-    ];
-
-    public function course()
+    public function courses()
     {
-        return $this->hasMany(Course::class);
+        return $this->belongsToMany(Course::class);
     }
 
 }

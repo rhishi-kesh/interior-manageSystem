@@ -67,7 +67,7 @@
                                           color: #2d3142;
                                           padding-button: 10px;
                                         " > Congratulations
-                                      <span style="font-weight: 200;">{{ $details['name'] }}</span>
+                                     <b>{{ $details['name'] }}</b>
                                       </h3>
                                       <br>
                                      <div>
@@ -81,7 +81,7 @@
                                             color: #2d3142;
                                             font-size: 18px;
                                           ">
-                                          We are delighted to inform you that you have been successfully join at Interior Bangladesh. Feel free to contact our front desk at <b>0199833324</b>.</p>
+                                          We are delighted to inform you that you have been admitted Successfully to the <b>{{ $details['department_name'] }}</b> at Interior Bangladesh .Feel free to contact our front desk at <b>0199833324</b>.</p>
 
                                             </div>
                                             <br>
@@ -94,7 +94,9 @@
                                                 line-height: 27px;
                                                 color: #2d3142;
                                                 font-size: 18px;
-                                              ">Please use this login code and password to access your panel: Your User ID:<b>{{ $details['user_id'] }} </b> And Password: <b>{{ $details['password'] }}</b>
+                                              ">
+                                              
+                                              Please use this login code and password to access your panel: Your User ID:<b>{{ $details['user_id'] }} </b> and Password: <b>{{ $details['password'] }}</b>
                                               </p>
                                             </div>
                                             <br>
@@ -371,7 +373,7 @@
                                         font-size: 14px;
                                       "
                                     >
-                                      Copyright © 2016-2024
+                                      Copyright © 2016-{{ date('Y') }}
                                       <a
                                         href="https://interiorbangladesh.com/"
                                         target="_blank"

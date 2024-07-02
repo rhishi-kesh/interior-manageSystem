@@ -10,8 +10,8 @@ class AdmissionController extends Controller
     public function studentsList(){
         return view('application.admission.studentsList');
     }
-    public function studentsEdit($slug){
-        return view('application.admission.studentsListEdit', compact('slug'));
+    public function studentsEdit($id){
+        return view('application.admission.studentsListEdit', compact('id'));
     }
     public function studentDownload(){
         return view('application.admission.studentDownload');

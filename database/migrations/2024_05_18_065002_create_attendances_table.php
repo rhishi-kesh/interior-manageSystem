@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id');
             $table->foreignId('batch_id');
+            $table->foreignId('course_id');
             $table->string('attendance');
             $table->string('date');
         });

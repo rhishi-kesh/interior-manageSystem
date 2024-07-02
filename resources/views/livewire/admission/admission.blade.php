@@ -100,10 +100,10 @@
                 @endif
             </div>
             <div class="mb-1">
-                <label for="courseId" class="my-label">Course Name</label>
+                <label for="courseId" class="my-label">Department Name</label>
                 <select name="courseId" wire:model.live.debounce.1000ms="courseId" id="courseId" class="my-input focus:outline-none focus:shadow-outline">
-                    <option value="">Select Course</option>
-                    @foreach ($course as $item)
+                    <option value="">Select Department</option>
+                    @foreach ($department as $item)
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach
                 </select>

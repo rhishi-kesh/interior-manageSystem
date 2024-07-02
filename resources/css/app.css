@@ -43,7 +43,7 @@
 
     .nav-item:hover svg path{
         --tw-text-opacity: 1;
-        color: rgb(43 51 125 / var(--tw-text-opacity));
+        color: rgb(240 30 39 / var(--tw-text-opacity));
     }
 
     /* Login Form Elements */

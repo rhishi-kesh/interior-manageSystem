@@ -11,6 +11,18 @@
                         <div class="p-3 bg-red-500 text-white my-1">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="mt-4">
+                    <label for="course" class="my-label">Select Course</label>
+                    <select name="course" id="course" placeholder="Select Course" value="{{ old('course') }}" class="@error('course') is-invalid @enderror my-input focus:outline-none focus:shadow-outline bg-white">
+                        <option value="">Select Course</option>
+                        @foreach ($department->courses as $item)
+                        <option value="{{ $item->id }}" >{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('course')
+                        <div class="p-3 bg-red-500 text-white my-1">{{ $message }}</div>
+                    @enderror
+                </div>
                 <div class="w-full mt-5 h-auto">
                     <table class="w-full border-collapse border border-slate-500">
                         <thead>
@@ -29,24 +41,24 @@
                                     {{ $i++ }}
                                 </td>
                                 <td class="border border-slate-600 px-5 py-2 text-center">
-                                    {{ $item->students->name }}
-                                    <input type="hidden" value="{{ $item->students->id }}" name="student_id[]">
+                                    {{ $item->students->name ?? '-' }}
+                                    <input type="hidden" value="{{ $item->students->id ?? '0' }}" name="student_id[]">
                                 </td>
                                 <td class="border border-slate-600 text-center select-none">
                                     <label for="present{{ $item->id }}" class="px-5 py-2 cursor-pointer mb-0">
-                                        <input type="radio" name="attendance{{ $item->students->id }}" id="present{{ $item->id }}" value="present" {{ $item->attendance === 'present' ? 'checked' : '' }}>
+                                        <input type="radio" name="attendance{{ $item->students->id ?? '0' }}" id="present{{ $item->id }}" value="present" {{ $item->attendance === 'present' ? 'checked' : '' }}>
                                         Present
                                     </label>
                                 </td>
                                 <td class="border border-slate-600 text-center select-none">
                                     <label for="absent{{ $item->id }}" class="px-5 py-2 cursor-pointer mb-0">
-                                        <input type="radio" name="attendance{{ $item->students->id }}" id="absent{{ $item->id }}" value="absent" {{ $item->attendance === 'absent' ? 'checked' : '' }}>
+                                        <input type="radio" name="attendance{{ $item->students->id ?? '0' }}" id="absent{{ $item->id }}" value="absent" {{ $item->attendance === 'absent' ? 'checked' : '' }}>
                                         Absent
                                     </label>
                                 </td>
                                 <td class="border border-slate-600 text-center select-none">
                                     <label for="late{{ $item->id }}" class="px-5 py-2 cursor-pointer mb-0">
-                                        <input type="radio" name="attendance{{ $item->students->id }}" id="late{{ $item->id }}" value="late" {{ $item->attendance === 'late' ? 'checked' : '' }}>
+                                        <input type="radio" name="attendance{{ $item->students->id ?? '0' }}" id="late{{ $item->id }}" value="late" {{ $item->attendance === 'late' ? 'checked' : '' }}>
                                         Late
                                     </label>
                                 </td>

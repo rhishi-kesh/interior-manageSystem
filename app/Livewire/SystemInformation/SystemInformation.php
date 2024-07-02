@@ -6,10 +6,12 @@ use App\Models\SystemInformation as ModelsSystemInformation;
 use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Facades\Gate;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\File;
 
 class SystemInformation extends Component
 {
+    use WithFileUploads;
     public $number, $email, $website, $logo, $favicon, $location, $oldLogo, $oldFav, $update_id;
     public function render() {
         $data = ModelsSystemInformation::first();

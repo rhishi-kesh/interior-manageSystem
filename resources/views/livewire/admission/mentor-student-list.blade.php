@@ -76,7 +76,9 @@
                                 {{ $data->guardianMobileNo ?? '-' }}
                             </td>
                             <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                {{ $data->course->name ?? '-' }}
+                               @foreach ($data->courses as $item)
+                                   <span class="block py-1">{{ $item->name }}</span>
+                               @endforeach
                             </td>
                             <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
                                 {{ ucfirst($data->student_status ?? '-') }}

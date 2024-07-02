@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Department;
 
+use App\Models\Course;
 use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -14,12 +15,12 @@ class Department extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public $name, $slug, $image, $delete_id, $update_id, $oldimage;
+    public $name, $fee, $duration, $image, $delete_id, $update_id, $oldimage, $is_Department = false, $single_Department = [], $course = [];
     protected $listeners = ['deleteConfirm' => 'deleteStudent'];
 
     public function render()
     {
-        $department = ModelsDepartment::paginate(15);
+        $department = ModelsDepartment::with('courses')->paginate(15);
         return view('livewire.department.department', compact('department'));
     }
 
@@ -35,20 +36,27 @@ class Department extends Component
 
         $validated = $this->validate([
             'name' => 'required',
+            'fee' => 'required|numeric',
+            'duration' => 'required|numeric',
             'image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
         ]);
+
         $fileName = "";
         if ($this->image) {
             $fileName = $this->image->store('department', 'public');
         } else {
             $fileName = null;
         }
+
         $done = ModelsDepartment::insert([
             'name' => $this->name,
+            'fee' => $this->fee,
+            'duration' => $this->duration,
             'slug' => $slug,
             'image' => $fileName,
             'created_at' => Carbon::now(),
         ]);
+
         if ($done) {
             $this->reset();
             $this->dispatch('swal', [
@@ -63,16 +71,27 @@ class Department extends Component
         $data = ModelsDepartment::findOrFail($id);
         $this->update_id = $data->id;
         $this->name = $data->name;
-        $this->slug = $data->slug;
+        $this->fee = $data->fee;
+        $this->duration = $data->duration;
         $this->oldimage = $data->image;
     }
     public function update()
     {
-        $validated = $this->validate([
-            'name' => 'nullable',
-            'slug' => 'nullable',
-            'image' => 'nullable',
-        ]);
+        //slug Generate
+        $searchName = ModelsDepartment::where('name', $this->name)->first('name');
+        if($searchName){
+            $slug = Str::slug($this->name) . rand();
+        }else{
+            $slug = Str::slug($this->name);
+        }
+
+       $validated = $this->validate([
+           'name' => 'required',
+           'fee' => 'required|numeric',
+           'duration' => 'required|numeric',
+           'image' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+       ]);
+
         $fileName = "";
         $image_path = public_path('storage\\' . $this->oldimage);
         if (!empty($this->image)) {
@@ -83,11 +102,16 @@ class Department extends Component
         } else {
             $fileName = $this->oldimage;
         }
+
         $done = ModelsDepartment::where('id', $this->update_id)->update([
             'name' => $this->name,
-            'slug' => $this->slug,
-            'image' => $fileName
+            'fee' => $this->fee,
+            'duration' => $this->duration,
+            'slug' => $slug,
+            'image' => $fileName,
+            'updated_at' => Carbon::now(),
         ]);
+
         if ($done) {
             $this->reset();
             $this->dispatch('swal', [
@@ -104,12 +128,15 @@ class Department extends Component
     public function deleteStudent()
     {
         $done = ModelsDepartment::findOrFail($this->delete_id);
+
         $this->oldimage = $done->image;
         $image_path = public_path('storage\\'.$this->oldimage);
         if(File::exists($image_path)){
             File::delete($image_path);
         }
+
         $done->delete();
+
         if ($done) {
             $this->update_id = '';
             $this->reset();
@@ -124,4 +151,26 @@ class Department extends Component
         $this->reset();
     }
 
+    //Course CRUD in Department
+    public function singleDepartment($id) {
+        $this->is_Department = true;
+        $this->single_Department = ModelsDepartment::where('id',$id)
+                ->select('id', 'name')
+                ->latest()
+                ->first();
+        $this->course = Course::get();
+    }
+
+    public function addCourseToDepartment($course_id, $department_id) {
+        $department = ModelsDepartment::findOrFail($department_id);
+        if ($department->courses()->where('course_id', $course_id)->exists()) {
+            $department->courses()->detach($course_id);
+        }else{
+            $department->courses()->attach($course_id);
+        }
+    }
+
+    public function removeDepartment() {
+        $this->is_Department = false;
+    }
 }

@@ -31,6 +31,12 @@ class MentorsController extends Controller
                     ->groupBy('status')
                     ->pluck('count', 'status');
 
-        return view('application.admission.mentorStudentReport', compact('student', 'attendanceReport', 'homeworkReport'));
+        $totalAttendance = Attendance::query()
+                        ->where('student_id', $id)->count();
+
+        $totalHomework = Homework::query()
+                        ->where('student_id', $id)->count();
+
+        return view('application.admission.mentorStudentReport', compact('student', 'attendanceReport', 'homeworkReport', 'totalAttendance', 'totalHomework'));
     }
 }

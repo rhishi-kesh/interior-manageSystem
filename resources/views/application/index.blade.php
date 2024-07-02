@@ -425,7 +425,7 @@
                     dataLabels: {
                         enabled: false,
                     },
-                    colors: ["#2B337D"],
+                    colors: ["#F01E27"],
                     stroke: {
                         lineCap: "round",
                         curve: "smooth",
@@ -442,7 +442,7 @@
                         },
                         labels: {
                             style: {
-                                colors: "#2B337D",
+                                colors: "#F01E27",
                                 fontSize: "12px",
                                 fontFamily: "inherit",
                                 fontWeight: 400,
@@ -453,7 +453,7 @@
                     yaxis: {
                         labels: {
                             style: {
-                                colors: "#2B337D",
+                                colors: "#F01E27",
                                 fontSize: "12px",
                                 fontFamily: "inherit",
                                 fontWeight: 400,
@@ -503,7 +503,7 @@
                     dataLabels: {
                         enabled: false,
                     },
-                    colors: ["#2B337D"],
+                    colors: ["#F01E27"],
                     stroke: {
                         lineCap: "round",
                         curve: "smooth",
@@ -520,7 +520,7 @@
                         },
                         labels: {
                             style: {
-                                colors: "#2B337D",
+                                colors: "#F01E27",
                                 fontSize: "12px",
                                 fontFamily: "inherit",
                                 fontWeight: 400,
@@ -531,7 +531,7 @@
                     yaxis: {
                         labels: {
                             style: {
-                                colors: "#2B337D",
+                                colors: "#F01E27",
                                 fontSize: "12px",
                                 fontFamily: "inherit",
                                 fontWeight: 400,
@@ -700,7 +700,7 @@
                     dataLabels: {
                         enabled: false,
                     },
-                    colors: ["#2B337D"],
+                    colors: ["#F01E27"],
                     stroke: {
                         lineCap: "round",
                         curve: "smooth",
@@ -717,7 +717,7 @@
                         },
                         labels: {
                             style: {
-                                colors: "#2B337D",
+                                colors: "#F01E27",
                                 fontSize: "12px",
                                 fontFamily: "inherit",
                                 fontWeight: 400,
@@ -728,7 +728,7 @@
                     yaxis: {
                         labels: {
                             style: {
-                                colors: "#2B337D",
+                                colors: "#F01E27",
                                 fontSize: "12px",
                                 fontFamily: "inherit",
                                 fontWeight: 400,
@@ -778,7 +778,7 @@
                     dataLabels: {
                         enabled: false,
                     },
-                    colors: ["#2B337D"],
+                    colors: ["#F01E27"],
                     stroke: {
                         lineCap: "round",
                         curve: "smooth",
@@ -795,7 +795,7 @@
                         },
                         labels: {
                             style: {
-                                colors: "#2B337D",
+                                colors: "#F01E27",
                                 fontSize: "12px",
                                 fontFamily: "inherit",
                                 fontWeight: 400,
@@ -806,7 +806,7 @@
                     yaxis: {
                         labels: {
                             style: {
-                                colors: "#2B337D",
+                                colors: "#F01E27",
                                 fontSize: "12px",
                                 fontFamily: "inherit",
                                 fontWeight: 400,
@@ -1047,7 +1047,7 @@
                         columnWidth: '10%'
                     }
                     },
-                    colors: ['#2B337D'],
+                    colors: ['#F01E27'],
                     dataLabels: {
                         enabled: false
                     },
@@ -1056,7 +1056,7 @@
                         showForSingleSeries: true,
                         customLegendItems: ['Complete', 'Target'],
                         markers: {
-                            fillColors: ['#2B337D', '#DD5B1D']
+                            fillColors: ['#F01E27', '#000000']
                         }
                     }
                 };

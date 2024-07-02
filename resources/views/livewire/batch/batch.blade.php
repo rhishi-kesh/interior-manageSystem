@@ -104,7 +104,13 @@
                             </div>
                             <div class="h-[120px] flex flex-col justify-between border-b">
                                 <div class="mentor-image flex justify-end pr-5 md:pr-10">
-                                    @if (count($data->mentors) > 0)
+                                    <div class="flex -space-x-14 rtl:space-x-reverse">
+                                        <img class="w-[100px] h-[100px] border-2 border-white rounded-full dark:border-gray-800" src="{{ asset('profile.jpeg') }}" alt="">
+                                        <img class="w-[100px] h-[100px] border-2 border-white rounded-full dark:border-gray-800" src="{{ asset('profile.jpeg') }}" alt="">
+                                        <img class="w-[100px] h-[100px] border-2 border-white rounded-full dark:border-gray-800" src="{{ asset('profile.jpeg') }}" alt="">
+                                        <img class="w-[100px] h-[100px] border-2 border-white rounded-full dark:border-gray-800" src="{{ asset('profile.jpeg') }}" alt="">
+                                    </div>
+                                    {{-- @if (count($data->mentors) > 0)
                                         @foreach ($data->mentors as $item)
                                             @if (empty($item->image))
                                                 <div class="w-[100px] h-[100px] rounded-full -mt-14 bg-orange-500 text-white flex justify-center items-center text-5xl">
@@ -116,7 +122,7 @@
                                         @endforeach
                                     @else
                                         <img src="{{ asset('profile.jpeg') }}" alt="" class="w-[100px] h-[100px] rounded-full -mt-14">
-                                    @endif
+                                    @endif --}}
 
                                 </div>
                                 <div class="flex items-center justify-end -space-x-1 p-3 select-none">
@@ -192,10 +198,10 @@
                             @endif
                         </div>
                         <div class="mb-1">
-                            <label for="courseId" class="my-label">Course Name</label>
+                            <label for="courseId" class="my-label">Department</label>
                             <select name="courseId" wire:model="courseId" id="courseId" class="my-input focus:outline-none focus:shadow-outline bg-white">
-                                <option value="">Select Course</option>
-                                @foreach ($course as $item)
+                                <option value="">Select Department</option>
+                                @foreach ($department as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
@@ -324,29 +330,6 @@
                     </div>
                 </div>
                 <div class="p-5 bg-gray-200 dark:bg-gray-800 text-left">
-                    <div x-data="{ show: false }">
-                        <button class="btn btn-submit ms-3 mb-5" @click="show = !show" x-show="!show">
-                            Add Mentor
-                        </button>
-                        <div class="w-full flex justify-start gap-5 mb-5" x-show="show">
-                            <div class="w-4/6 md:w-3/6">
-                                <select id="mentor" wire:model="mentor" class="my-input focus:outline-none focus:shadow-outline" name="mentor">
-                                    <option value="">Select Mentor</option>
-                                    @foreach ($mentors as $data)
-                                        <option value="{{ $data->id }}">{{ $data->name }}</option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('mentor'))
-                                    <div class="text-red-500">{{ $errors->first('mentor') }}</div>
-                                @endif
-                            </div>
-                            <div class="w-1/6 flex justify-start items-end">
-                                <button wire:click="addMentor({{ $batchMentor->id ?? '' }})" class="btn btn-submit">
-                                    Add
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                     <div class="overflow-auto">
                         <table class="w-full">
                             <thead>
@@ -358,41 +341,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(!empty($batchMentor->mentors) && $batchMentor->mentors->count() > 0)
-                                    @foreach($batchMentor->mentors as $item)
-                                        <tr>
-                                            <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                                1
-                                            </td>
-                                            <td class="p-3 mt-2 border-b border-[#ebedf2] dark:border-[#191e3a] d-flex justify-center" style="display: flex">
-                                                @if (empty($item->image))
-                                                    <div class="profile w-7 h-7 text-xs">{{ mb_substr(strtoupper($item->name), 0, 1) }}
-                                                    </div>
-                                                @else
-                                                    <div class="text-center">
-                                                        <img class="w-7 h-7 rounded-full overflow-hidden object-cover ring-2 ring-white dark:ring-[#515365] shadow-[0_0_15px_1px_rgba(113,106,202,0.30)] dark:shadow-none" src="{{ asset('storage/' . $item->image) }}" alt="image" />
-                                                    </div>
-                                                @endif
-                                            </td>
-                                            <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center" >
-                                                {{ $item->name ?? '-' }}
-                                            </td>
-                                            <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                                <button class="btn btn-reset" wire:click="removeMentorAlert({{ $batchMentor->id }})">
-                                                    Remove
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
+                                @foreach($mentors as $item)
                                     <tr>
-                                        <td colspan="20">
-                                            <div class="flex justify-center items-center">
-                                                <img src="{{ asset('empty.png') }}" alt="" class="w-[200px] opacity-40 dark:opacity-15 mt-10 select-none">
-                                            </div>
+                                        <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
+                                            1
+                                        </td>
+                                        <td class="p-3 mt-2 border-b border-[#ebedf2] dark:border-[#191e3a] d-flex justify-center" style="display: flex">
+                                            @if (empty($item->image))
+                                                <div class="profile w-7 h-7 text-xs">{{ mb_substr(strtoupper($item->name), 0, 1) }}
+                                                </div>
+                                            @else
+                                                <div class="text-center">
+                                                    <img class="w-7 h-7 rounded-full overflow-hidden object-cover ring-2 ring-white dark:ring-[#515365] shadow-[0_0_15px_1px_rgba(113,106,202,0.30)] dark:shadow-none" src="{{ asset('storage/' . $item->image) }}" alt="image" />
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center" >
+                                            {{ $item->name ?? '-' }}
+                                        </td>
+                                        <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
+                                            <button wire:click="addMentor({{ $item->id }}, {{ $batchMentor->id ?? 0 }})" class="btn btn-submit">
+                                                @if($batchMentor && $batchMentor->mentors()->where('mentor_id', $item->id)->exists())
+                                                    Remove
+                                                @else
+                                                    Add
+                                                @endif
+                                            </button>
                                         </td>
                                     </tr>
-                                @endif
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -16,11 +16,16 @@ class Mentor extends Authenticatable
         'password',
         'remember_token',
     ];
-    
+
     protected $fillable = [
         'name',
         'email',
         'mobile',
         'dateofbirth',
     ];
+
+    public function batchs()
+    {
+        return $this->belongsToMany(Batch::class);
+    }
 }

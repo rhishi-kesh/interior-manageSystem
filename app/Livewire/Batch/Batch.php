@@ -4,6 +4,7 @@ namespace App\Livewire\Batch;
 
 use App\Models\Batch as Batchs;
 use App\Models\Course;
+use App\Models\Department;
 use App\Models\Mentor;
 use App\Models\Student;
 use Carbon\Carbon;
@@ -34,8 +35,8 @@ class Batch extends Component
                 ->latest()
                 ->paginate(20);
                 // dd($batch);
-        $course = Course::get();
-        return view('livewire.batch.batch', compact('batch', 'course'));
+        $department = Department::get();
+        return view('livewire.batch.batch', compact('batch', 'department'));
     }
 
     //Batch CRUD
@@ -46,7 +47,7 @@ class Batch extends Component
         ]);
         $done = Batchs::insert([
             'name' => $this->name,
-            'course_id' => $this->courseId,
+            'department_id' => $this->courseId,
             'created_at' => Carbon::now(),
         ]);
         if($done){
@@ -61,7 +62,7 @@ class Batch extends Component
     public function editBatch($id) {
         $data = Batchs::findOrFail($id);
         $this->name = $data->name;
-        $this->courseId = $data->course_id;
+        $this->courseId = $data->department_id;
         $this->update_id = $data->id;
     }
     public function updateBatch() {
@@ -71,7 +72,7 @@ class Batch extends Component
         ]);
         $done = Batchs::where('id',$this->update_id)->update([
             'name' => $this->name,
-            'course_id' => $this->courseId,
+            'department_id' => $this->courseId,
             'updated_at' => Carbon::now(),
         ]);
         if($done){
@@ -151,9 +152,6 @@ class Batch extends Component
         $this->isModal = false;
         $this->reset();
     }
-    public function removeUpdate() {
-        $this->showUpdateInput = null;
-    }
 
 
     //Student CRUD In Batch
@@ -220,56 +218,19 @@ class Batch extends Component
     public function asignMentor($id) {
         $this->isMentorModal = true;
         $this->batchMentor = Batchs::query()
-                ->with('mentors')
-                ->select('id', 'name', 'mentor_id')
                 ->where('id', $id)
+                ->select('id', 'name')
                 ->latest()
                 ->first();
+        // dd($this->batchMentor);
     }
-    public function mentorData($id) {
-        $this->batchMentor = Batchs::query()
-                ->with('mentors')
-                ->select('id', 'name', 'mentor_id')
-                ->where('id', $id)
-                ->latest()
-                ->first();
-    }
-    public function addMentor($id) {
-        if($this->mentor){
-            $done = Batchs::where('id', $id)->first();
-            $done->mentor_id = $this->mentor;
-            $done->update();
-            if($done){
-                $this->mentorData($id);
-                $this->dispatch('clearInput', [
-                    'title' => 'Mentor Asign Successfull',
-                    'type' => "success",
-                ]);
-            }
-        }else{
-            $this->dispatch('clearInput', [
-                'title' => 'Please Select A Mentor First',
-                'type' => "error",
-            ]);
-        }
 
-    }
-    public function removeMentorAlert($id) {
-        $this->removeMentor_id = $id;
-        $this->dispatch('removeMentorAlert');
-    }
-    public function removeMentorConfirm() {
-        $done = Batchs::where('id', $this->removeMentor_id)->update([
-            'mentor_id' => null,
-            'updated_at' => Carbon::now(),
-        ]);
-        if($done){
-            $this->mount();
-            $this->mentorData($this->removeMentor_id);
-            $this->dispatch('deleteMentorSuccessFull', [
-                'title' => 'Mentor Removed',
-                'type' => "success",
-            ]);
+    public function addMentor($mentor_id, $batch_id) {
+        $batch = Batchs::findOrFail($batch_id);
+        if ($batch->mentors()->where('mentor_id', $mentor_id)->exists()) {
+            $batch->mentors()->detach($mentor_id);
+        }else{
+            $batch->mentors()->attach($mentor_id);
         }
     }
     public function removeMentorMOdal() {

@@ -6,8 +6,21 @@
             <form action="{{ route('attendanceBatchPost', $id) }}" method="POST">
                 @csrf
                 <div>
+                    <label for="date" class="my-label">Select Date</label>
                     <input name="date" type="date" id="date" placeholder="Select Date" value="{{ old('date') }}" rows="10" class="@error('date') is-invalid @enderror my-input focus:outline-none focus:shadow-outline">
                     @error('date')
+                        <div class="p-3 bg-red-500 text-white my-1">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="mt-4">
+                    <label for="course" class="my-label">Select Course</label>
+                    <select name="course" id="course" placeholder="Select Course" value="{{ old('course') }}" class="@error('course') is-invalid @enderror my-input focus:outline-none focus:shadow-outline bg-white">
+                        <option value="">Select Course</option>
+                        @foreach ($department->courses as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('course')
                         <div class="p-3 bg-red-500 text-white my-1">{{ $message }}</div>
                     @enderror
                 </div>

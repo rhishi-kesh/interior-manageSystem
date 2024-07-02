@@ -55,7 +55,8 @@ class Registation extends Component
         ];
 
         //SMS Message
-        $message = 'Rhishi Testing SMS';
+        $message = "Dear $this->name, Congratulations on becoming a User of Interior Bangladesh! You can manage all your tasks using this panel. Here are your Email ID and password:
+        Email ID: $this->email and Password: $this->password";
 
         if($done){
             dispatch(new SendUserMail($data, $message, $this->mobile));

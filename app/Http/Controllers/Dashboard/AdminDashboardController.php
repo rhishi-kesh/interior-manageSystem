@@ -7,6 +7,7 @@ use App\Models\AdmissionBooth;
 use App\Models\Batch;
 use App\Models\Course;
 use App\Models\Mentor;
+use App\Models\Payment;
 use App\Models\SalesTarget;
 use App\Models\Student;
 use App\Models\User;
@@ -34,7 +35,7 @@ class AdminDashboardController extends Controller
             Carbon::now()->startOfDay(),
             Carbon::now()->endOfDay()
         ])->count();
-        $todayStudentSaleSum = Student::whereBetween('created_at',
+        $todayStudentSaleSum = Payment::whereBetween('created_at',
         [
             Carbon::now()->startOfDay(),
             Carbon::now()->endOfDay()
@@ -62,8 +63,8 @@ class AdminDashboardController extends Controller
 
 
         //Due
-        $totalDueStudent = Student::whereNot('due', 0)->count();
-        $totalDueStudentSum = Student::whereNot('due', 0)->sum('due');
+        $totalDueStudent = Payment::whereNot('due', 0)->count();
+        $totalDueStudentSum = Payment::whereNot('due', 0)->sum('due');
 
         //Mentor
         $totalMentor = Mentor::count();
@@ -78,7 +79,7 @@ class AdminDashboardController extends Controller
         $totalAdmissionBooth = AdmissionBooth::count();
 
         //Sale
-        $totalSale = Student::sum('pay');
+        $totalSale = Payment::sum('pay');
 
         //Get Curren Day in month, Day, Year
         $currentMonth = Carbon::now()->month;
@@ -87,7 +88,7 @@ class AdminDashboardController extends Controller
 
         //statistics Admission of One Month
         $admissions = Student::query()
-            ->with('course')
+            ->with('courses')
             ->whereYear('created_at', $currentYear)
             ->whereMonth('created_at', $currentMonth)
             ->get();
@@ -129,7 +130,7 @@ class AdminDashboardController extends Controller
 
         //statistics Admission of One Year
         $monthlyAdmissions = Student::query()
-            ->with('course')
+            ->with('courses')
             ->whereYear('created_at', $currentYear)
             ->get();
 
@@ -175,7 +176,7 @@ class AdminDashboardController extends Controller
                                         ->whereMonth('date', date('m'))
                                         ->first();
 
-        $MonthlySale = Student::whereBetween('created_at',
+        $MonthlySale = Payment::whereBetween('created_at',
                                         [
                                             Carbon::now()->startOfMonth(),
                                             Carbon::now()->endOfMonth()

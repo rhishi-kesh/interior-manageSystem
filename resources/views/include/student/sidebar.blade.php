@@ -10,6 +10,23 @@
         </div>
         <ul class="perfect-scrollbar relative h-[calc(100vh-80px)] space-y-0.5 overflow-y-auto overflow-x-hidden p-4 py-0 font-semibold" x-data="{ activeDropdown: 'dashboard' }">
             <li class="nav-item">
+                <a href="{{ route('myCourse')}}" class="group sidebargroup">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="icon icon-tabler icons-tabler-outline icon-tabler-school" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
+                            <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
+                            <path d="M3 6l0 13"></path>
+                            <path d="M12 6l0 13"></path>
+                            <path d="M21 6l0 13"></path>
+                        </svg>
+                        <span class="text-black pl-3 dark:text-[#506690] dark:group-hover:text-white-dark">
+                            My Course
+                        </span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ route('studentHomeworkView')}}" class="group sidebargroup">
                     <div class="flex items-center">
                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-backpack"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 18v-6a6 6 0 0 1 6 -6h2a6 6 0 0 1 6 6v6a3 3 0 0 1 -3 3h-8a3 3 0 0 1 -3 -3z" /><path d="M10 6v-1a2 2 0 1 1 4 0v1" /><path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4" /><path d="M11 10h2" /></svg>
@@ -39,7 +56,7 @@
                     </div>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="{{ route('generatePDF')}}" class="group sidebargroup text-nowrap">
                     <div class="flex items-center">
                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-certificate"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5" /><path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73" /><path d="M6 9l12 0" /><path d="M6 12l3 0" /><path d="M6 15l2 0" /></svg>
@@ -48,7 +65,7 @@
                         </span>
                     </div>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </nav>

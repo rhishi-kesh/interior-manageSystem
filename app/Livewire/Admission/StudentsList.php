@@ -16,7 +16,7 @@ class StudentsList extends Component
     public $sortDirection = 'DESC', $sortColumn = 'created_at', $perpage = 50, $search = '', $delete_id, $student_status;
 
     public function render(){
-        $students = Student::with(['course:id,name','pament_mode:id,name','batch:id,name'])
+        $students = Student::with(['pament_mode:id,name','batch:id,name'])
         ->search($this->search)
         ->orderBy($this->sortColumn, $this->sortDirection)
         ->paginate($this->perpage);
