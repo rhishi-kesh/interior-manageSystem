@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Thank you for admission</title>
+    <title> Happy birthday!</title>
 </head>
 <body>
     <div style="background-color: #ffffff">
@@ -48,7 +48,6 @@
                                 </table>
                               </td>
                             </tr>
-
                             <tr>
                               <td><br /><br /></td>
                             </tr>

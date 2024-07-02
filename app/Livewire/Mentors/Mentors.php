@@ -50,7 +50,6 @@ class Mentors extends Component
             'password' => $password_hash,
             'created_at' => Carbon::now(),
         ]);
-
         //Mail Data
         $data = [
             'name'=> $this->name,
@@ -59,7 +58,8 @@ class Mentors extends Component
         ];
 
         //SMS Message
-        $message = 'Rhishi Testing SMS';
+        $message = "Dear $this->name Sir, Congratulations on becoming a mentor! You can manage all your tasks using this panel. Here are your Email ID and password:
+        Email ID: $this->email and Password: $password";
 
         if ($done) {
 

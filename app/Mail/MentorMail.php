@@ -28,7 +28,7 @@ class MentorMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Mentor Mail',
+            subject: 'Congratulations on Becoming a Mentor',
         );
     }
 
