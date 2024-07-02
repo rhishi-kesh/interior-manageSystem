@@ -41,6 +41,10 @@ class Student extends Authenticatable
     {
         return $this->hasOne(PaymentMode::class,'id','paymentType');
     }
+    public function certificate_criteria(): HasOne
+    {
+        return $this->hasOne(CertificateCriterias::class,'student_id','id');
+    }
 
     public function certificate_criteria(): HasOne
     {

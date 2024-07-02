@@ -149,6 +149,7 @@ class Admission extends Component
             $message = "Congratulations $this->name! You've been admitted to the $department->name at Interior Bangladesh. Visit our website and Facebook page for info. Check your email and phone for login details. Contact 0199833324 for help.";
 
 
+
             dispatch(new SendAdmissionMail($data, $message, $this->mobileNumber));
             $this->reset();
             $this->mount();
